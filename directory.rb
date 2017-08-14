@@ -37,7 +37,7 @@ puts "____________"
 end
 
 def print(students)
-students.each{|student| puts "#{student[:name]} (#{student[:cohort]} cohort)"}
+students.each_with_index{|student, index| puts "#{index} #{student[:name]} (#{student[:cohort]} cohort)" if student[:name].start_with?("N","n")}
 end
 
 def print_footer(names)
