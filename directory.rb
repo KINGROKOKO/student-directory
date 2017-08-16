@@ -1,10 +1,11 @@
+@students=[]# an empty array accessible to all methods
 
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
 
   # get the first name
-students=[]
+
   name = gets.strip.upcase
   puts "thanks now nationality?"
 
@@ -14,7 +15,7 @@ students=[]
   food = gets.strip.upcase
   puts "and favourite number"
 
-  number = gets.strip.to_s.upcase
+  number = gets.strip.to_s
   puts "and cohort?"
 
   cohort = gets.strip.upcase.to_sym
@@ -26,15 +27,15 @@ students=[]
 
   # while the name is not empty, repeat this code
   while !name.empty? do
-    students << {name: name, nationality: nationality, food: food, number: number, cohort: cohort}
-    puts "Now we have #{students.count} students"
+    @students << {name: name, nationality: nationality, food: food, number: number, cohort: cohort}
+    puts "Now we have #{@students.count} students"
 
     # get another name from the user
     name = gets.strip.upcase
 
     #check for empty name again within method
     if name.empty?
-      students
+      @students
 
     else
     puts "thanks now nationality?"
@@ -42,7 +43,7 @@ students=[]
      puts "thanks now favourite food?"
     food = gets.strip.upcase!
      puts "and favourite number"
-    number = gets.strip.to_s.upcase!
+    number = gets.strip.to_s
     puts "and cohort?"
     cohort = gets.strip.upcase.to_sym
 
@@ -54,7 +55,7 @@ students=[]
 end
 
  # return the array of students
-    students
+    @students
   end
 
 def print_header
@@ -62,12 +63,12 @@ puts "The students of Villains Academy"
 puts "____________"
 end
 
-def print(students)
+def print_students_list(students)
   i=0
 
-  while i < students.length do
+  while i < @students.length do
 
-    puts "#{students[i][:name]} from #{students[i][:nationality]} enjoys #{students[i][:food]} fave number #{students[i][:number]} (#{students[i][:cohort]} cohort)".center(50) if students[i][:name].start_with?("N","n") && students[i][:name].size<12
+    puts "#{@students[i][:name]} from #{@students[i][:nationality]} enjoys #{@students[i][:food]} fave number #{@students[i][:number]} (#{@students[i][:cohort]} cohort)".center(50) if @students[i][:name].start_with?("N","n") && @students[i][:name].size<12
 
     i += 1
 
@@ -85,31 +86,40 @@ def print_footer(names)
   end
 end
 
-def interactive_menu
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit"
+end
 
-  students = []
+def show_students
+  print_header
+  print_students_list(@students)
+  print_footer(@students) if @students.count > 0
+end
+
+def interactive_menu
 
   loop do
     # 1. print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit" #9 because we'll be adding more items
+    print_menu#9 because we'll be adding more items
     # 2. read the input and save it into a variable
-    selection = gets.chomp
-    # 3. do what the user asked
+    process(gets.chomp)
+  end
+end
+
+  def process(selection)
     case selection
     when "1"
-      students = input_students
+      input_students
     when "2"
-      print_header
-      print(students)
-      print_footer(students) if students.count > 0
+      show_students
     when "9"
       exit # this will cause the program to terminate
     else
       puts "I don't know what you meant, try again"
     end
   end
-end
+
 
 interactive_menu
