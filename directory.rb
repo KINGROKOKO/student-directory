@@ -33,15 +33,25 @@ def input_students
     # get another name from the user
     name = gets.chomp.upcase
 
+    #check for empty name again within method
+    if name.empty?
+      students
+
+    else
     puts "thanks now nationality?"
-    nationality = gets.chomp.upcase
+    nationality = gets.chomp.upcase!
      puts "thanks now favourite food?"
-    food = gets.chomp.upcase
+    food = gets.chomp.upcase!
      puts "and favourite number"
-    number = gets.chomp.to_s.upcase
+    number = gets.chomp.to_s.upcase!
     puts "and cohort?"
   cohort = gets.chomp.upcase.to_sym
+
+  cohort.empty?
+    puts "you are being assigned a default cohort"
+    cohort = "Cohort Default".to_sym
   end
+end
 
  # return the array of students
     students
