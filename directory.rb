@@ -7,23 +7,24 @@ def input_students
 
   # get the first name
 
-  name = gets.chomp.upcase
+  name = gets.strip.upcase
   puts "thanks now nationality?"
 
-  nationality = gets.chomp.upcase
+  nationality = gets.strip.upcase
   puts "thanks now favourite food?"
 
-  food = gets.chomp.upcase
+  food = gets.strip.upcase
   puts "and favourite number"
 
-  number = gets.chomp.to_s.upcase
+  number = gets.strip.to_s.upcase
   puts "and cohort?"
 
-  cohort = gets.chomp.upcase.to_sym
+  cohort = gets.strip.upcase.to_sym
 
-    cohort.empty?
+    if cohort.empty?
     puts "you are being assigned a default cohort"
     cohort = "Cohort Default".to_sym
+  end
 
   # while the name is not empty, repeat this code
   while !name.empty? do
@@ -31,7 +32,7 @@ def input_students
     puts "Now we have #{students.count} students"
 
     # get another name from the user
-    name = gets.chomp.upcase
+    name = gets.strip.upcase
 
     #check for empty name again within method
     if name.empty?
@@ -39,17 +40,18 @@ def input_students
 
     else
     puts "thanks now nationality?"
-    nationality = gets.chomp.upcase!
+    nationality = gets.strip.upcase!
      puts "thanks now favourite food?"
-    food = gets.chomp.upcase!
+    food = gets.strip.upcase!
      puts "and favourite number"
-    number = gets.chomp.to_s.upcase!
+    number = gets.strip.to_s.upcase!
     puts "and cohort?"
-  cohort = gets.chomp.upcase.to_sym
+  cohort = gets.strip.upcase.to_sym
 
-  cohort.empty?
+  if cohort.empty?
     puts "you are being assigned a default cohort"
     cohort = "Cohort Default".to_sym
+  end
   end
 end
 
@@ -76,7 +78,13 @@ def print(students)
 end
 
 def print_footer(names)
+  if names.count > 1
   puts "Overall, we have #{names.count} great students".center(50, '---')
+  elsif names.count == 1
+  puts "Overall, we have #{names.count} great student".center(50, '---')
+  else
+  puts "Overall, we have #{names.count} great students".center(50, '---')
+  end
 end
 
 students = input_students
