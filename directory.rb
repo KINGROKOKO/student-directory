@@ -1,12 +1,10 @@
+
 def input_students
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
 
-  # create an empty array
-  students = []
-
   # get the first name
-
+students=[]
   name = gets.strip.upcase
   puts "thanks now nationality?"
 
@@ -24,7 +22,7 @@ def input_students
     if cohort.empty?
     puts "you are being assigned a default cohort"
     cohort = "Cohort Default".to_sym
-  end
+    end
 
   # while the name is not empty, repeat this code
   while !name.empty? do
@@ -46,7 +44,7 @@ def input_students
      puts "and favourite number"
     number = gets.strip.to_s.upcase!
     puts "and cohort?"
-  cohort = gets.strip.upcase.to_sym
+    cohort = gets.strip.upcase.to_sym
 
   if cohort.empty?
     puts "you are being assigned a default cohort"
@@ -87,7 +85,31 @@ def print_footer(names)
   end
 end
 
-students = input_students
-print_header
-print(students)
-print_footer(students)
+def interactive_menu
+
+  students = []
+
+  loop do
+    # 1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit" #9 because we'll be adding more items
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user asked
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print(students)
+      print_footer(students) if students.count > 0
+    when "9"
+      exit # this will cause the program to terminate
+    else
+      puts "I don't know what you meant, try again"
+    end
+  end
+end
+
+interactive_menu
