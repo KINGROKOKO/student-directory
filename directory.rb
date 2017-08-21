@@ -6,19 +6,19 @@ def input_students
 
   # get the first name
 
-  name = gets.strip.upcase
+  name = STDIN.gets.strip.upcase
   puts "thanks now nationality?"
 
-  nationality = gets.strip.upcase
+  nationality = STDIN.gets.strip.upcase
   puts "thanks now favourite food?"
 
-  food = gets.strip.upcase
+  food = STDIN.gets.strip.upcase
   puts "and favourite number"
 
-  number = gets.strip.to_s
+  number = STDIN.gets.strip.to_s
   puts "and cohort?"
 
-  cohort = gets.strip.upcase.to_sym
+  cohort = STDIN.gets.strip.upcase.to_sym
 
     if cohort.empty?
     puts "you are being assigned a default cohort"
@@ -31,7 +31,7 @@ def input_students
     puts "Now we have #{@students.count} students"
 
     # get another name from the user
-    name = gets.strip.upcase
+    name = STDIN.gets.strip.upcase
 
     #check for empty name again within method
     if name.empty?
@@ -39,13 +39,13 @@ def input_students
 
     else
     puts "thanks now nationality?"
-    nationality = gets.strip.upcase!
+    nationality = STDIN.gets.strip.upcase!
      puts "thanks now favourite food?"
-    food = gets.strip.upcase!
+    food = STDIN.gets.strip.upcase!
      puts "and favourite number"
-    number = gets.strip.to_s
+    number = STDIN.gets.strip.to_s
     puts "and cohort?"
-    cohort = gets.strip.upcase.to_sym
+    cohort = STDIN.gets.strip.upcase.to_sym
 
   if cohort.empty?
     puts "you are being assigned a default cohort"
@@ -79,10 +79,13 @@ end
 def print_footer(names)
   if names.count > 1
   puts "Overall, we have #{names.count} great students".center(50, '---')
+  puts
   elsif names.count == 1
   puts "Overall, we have #{names.count} great student".center(50, '---')
+  puts
   else
   puts "Overall, we have #{names.count} great students".center(50, '---')
+  puts
   end
 end
 
@@ -98,12 +101,32 @@ def save_students
     file.close
   end
 
+def load_students(filename = "students.csv")
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+    name, cohort = line.chomp.split(',')
+     @students << {name: name, cohort: cohort.to_sym}
+  end
+   file.close
+end
 
+def try_load_students
+  filename = ARGV.first #first argument from the command line
+  return if filename.nil? #get out of the method if it isn't given
+  if File.exists?(filename) #if it exists
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else # if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit # quit the program
+  end
+end
 
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
   puts "9. Exit"
 end
 
@@ -119,19 +142,34 @@ def interactive_menu
     # 1. print the menu and ask the user what to do
     print_menu#9 because we'll be adding more items
     # 2. read the input and save it into a variable
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
   def process(selection)
     case selection
     when "1"
+      puts
+      puts "START INPUTTING STUDENTS"
+      puts
       input_students
     when "2"
+      puts
+      puts "SHOWING STUDENTS"
+      puts
       show_students
     when "3"
+      puts
+      puts "SAVED!"
+      puts
       save_students
+    when "4"
+      puts
+      puts "LOADED!"
+      puts
+      load_students
     when "9"
+      puts "EXITING!"
       exit # this will cause the program to terminate
     else
       puts "I don't know what you meant, try again"
